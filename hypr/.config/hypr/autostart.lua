@@ -1,0 +1,8 @@
+hl.on("hyprland.start", function()
+    hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
+    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("wl-paste --watch cliphist store")
+    hl.exec_cmd("systemctl --user start swaync.service")
+    hl.exec_cmd("env G_APPLICATION_ID=org.erikreider.swayosd-server swayosd-server")
+    hl.exec_cmd("quickshell")
+end)

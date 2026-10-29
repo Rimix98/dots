@@ -1,0 +1,43 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "file",
+    "source": "~/.config/fastfetch/logo.txt",
+    "color": { "1": "#ffffff" },
+    "padding": { "top": 1, "right": 3 }
+  },
+  "display": {
+    "separator": ": ",
+    "brightColor": true,
+    "color": { "title": "white", "keys": "white", "output": "white" }
+  },
+  "modules": [
+    "title",
+    { "type": "separator", "string": "-" },
+    { "type": "os", "key": "\u001b[1mOS" },
+    {
+      "type": "command",
+      "key": "\u001b[1mOS Age",
+      "text": "echo $(( ($(date +%s) - $(stat -c %W /)) / 86400 )) days"
+    },
+    { "type": "host", "key": "\u001b[1mHost" },
+    { "type": "kernel", "key": "\u001b[1mKernel" },
+    { "type": "uptime", "key": "\u001b[1mUptime" },
+    "break",
+    { "type": "cpu", "key": "\u001b[1mCPU" },
+    { "type": "gpu", "key": "\u001b[1mGPU", "format": "{name}" },
+    { "type": "memory", "key": "\u001b[1mMemory", "format": "{used} / {total}" },
+    { "type": "disk", "key": "\u001b[1mDisk", "folders": "/", "format": "{size-used} / {size-total}" },
+    "break",
+    { "type": "terminal", "key": "\u001b[1mTerminal" },
+    { "type": "localip", "key": "\u001b[1mIP", "showPrefixLen": true },
+    "break",
+    "colors",
+    "break",
+    {
+      "type": "command",
+      "key": "\u001b[1m",
+      "text": "printf '\\033[1;97m%s\\033[0m\\n' \"$(shuf -n 1 $HOME/.config/monochrome_dots/etc/phrases.txt)\""
+    }
+  ]
+}
