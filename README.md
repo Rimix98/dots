@@ -16,6 +16,8 @@
 | `qt` | `kdeglobals` и qt6ct: цвета Qt-приложений |
 | `fastfetch` | конфиг и логотип |
 | `starship` | промпт |
+| `swaync` | центр уведомлений: конфиг и стиль |
+| `swayosd` | экранные индикаторы громкости/яркости: конфиг и стиль |
 | `system` | файлы вне `~`: `etc/ly/config.ini` для экрана входа ly |
 
 Конфиг Hyprland написан на Lua (формат Hyprland 0.55+) и разбит на файлы:
@@ -53,7 +55,7 @@
 Arch Linux (названия пакетов могут отличаться в других дистрибутивах):
 
 ```
-hyprland hyprpaper hyprlock hypridle kitty fuzzel fastfetch starship quickshell
+hyprland hyprpaper hyprlock hypridle kitty fuzzel fastfetch starship quickshell swaync swayosd
 stow grim slurp hyprshot wl-clipboard cliphist brightnessctl playerctl
 plasma-integration qt6ct
 ttf-jetbrains-mono-nerd papirus-icon-theme bibata-cursor-theme
@@ -71,14 +73,14 @@ cd ~/dots
 Если в `~/.config` уже лежат одноимённые файлы, `stow` откажется их заменять: сначала сделай копию или удали их.
 
 ```
-stow hypr kitty fuzzel quickshell qt fastfetch starship
+stow hypr kitty fuzzel quickshell qt fastfetch starship swaync swayosd
 ```
 
 В конфигах, где указан абсолютный путь (обои и схема Qt), стоит заглушка `/home/USER`.
 Подставь свой домашний каталог:
 
 ```
-sed -i "s|/home/USER|$HOME|g" ~/.config/hypr/hyprpaper.conf ~/.config/hypr/hyprlock.conf ~/.config/qt6ct/qt6ct.conf
+sed -i "s|/home/USER|$HOME|g" ~/.config/hypr/hyprpaper.conf ~/.config/hypr/hyprlock.conf ~/.config/qt6ct/qt6ct.conf ~/.config/swayosd/config.toml
 ```
 
 Положи обои в `~/Pictures/Wallpapers/wallhaven-1kld7w.png` (или поправь путь в `hyprpaper.conf` и `hyprlock.conf`).
