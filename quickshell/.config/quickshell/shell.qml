@@ -25,16 +25,6 @@ ShellRoot {
         // Bar background color
         color: "#111318"
 
-        // Computed workspace string like: [1] [2] [3]
-        // Focused workspace number is highlighted in #9f78bd.
-        property string workspaces: {
-            const all = Hyprland.workspaces.values
-            let out = ""
-            for (const ws of all)
-                out += '<span style="color:#ffffff;">[</span><span style="color:' + (ws.focused ? '#9f78bd' : '#ffffff') + ';">' + (ws.name || ws.id) + '</span><span style="color:#ffffff;">]</span>  '
-            return out.trim()
-        }
-
         // Whether the QS modal is currently open
         property bool centerOpen: false
 
@@ -80,13 +70,28 @@ ShellRoot {
             // Spacer between QS button and workspace numbers
             Item { Layout.preferredWidth: 16 }
 
-            // Workspace numbers rendered as white/#9f78bd rich text
-            Text {
-                text: bar.workspaces
-                textFormat: Text.RichText
-                color: "#ffffff"
-                font.pixelSize: 14
+            // Workspace numbers: click a number to switch to that workspace
+            Row {
+                spacing: 2
                 Layout.alignment: Qt.AlignVCenter
+
+                Repeater {
+                    model: Hyprland.workspaces
+
+                    delegate: Text {
+                        required property var modelData
+
+                        text: "[" + (modelData.name || modelData.id) + "]  "
+                        color: modelData.focused ? "#9f78bd" : "#ffffff"
+                        font.pixelSize: 14
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: modelData.activate()
+                        }
+                    }
+                }
             }
 
             // Push the remaining elements to the right
