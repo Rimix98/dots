@@ -74,7 +74,7 @@ cd ~/dots
 Если в `~/.config` уже лежат одноимённые файлы, `stow` откажется их заменять: сначала сделай копию или удали их.
 
 ```
-stow hypr kitty fuzzel quickshell qt fastfetch starship swaync swayosd
+stow hypr kitty fuzzel quickshell qt fastfetch starship swaync swayosd nvim
 ```
 
 В конфигах, где указан абсолютный путь (обои и схема Qt), стоит заглушка `/home/USER`.
