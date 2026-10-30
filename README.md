@@ -19,6 +19,7 @@
 | `swaync` | центр уведомлений: конфиг и стиль |
 | `swayosd` | экранные индикаторы громкости/яркости: конфиг и стиль |
 | `system` | файлы вне `~`: `etc/ly/config.ini` для экрана входа ly |
+| `nvim` | редактор |
 
 Конфиг Hyprland написан на Lua (формат Hyprland 0.55+) и разбит на файлы:
 `hyprland.lua` подключает `appearance`, `input`, `binds`, `rules` и `autostart`.
