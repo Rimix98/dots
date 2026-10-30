@@ -1,6 +1,6 @@
 /* Monochrome + fade animation for swaync */
 @define-color bg rgba(15, 15, 20, 0.85);
-@define-color border rgba(160, 160, 160, 0.25);
+@define-color border #9f78bd;
 @define-color text #eaeaea;
 @define-color gray #9a9a9a;
 
@@ -11,7 +11,7 @@ window {
 .control-center {
   background: @bg;
   border: 1px solid @border;
-  border-radius: 10px;
+  border-radius: 0;
   color: @text;
 }
 
@@ -22,7 +22,7 @@ window {
 .notification {
   background: @bg;
   border: 1px solid @border;
-  border-radius: 10px;
+  border-radius: 0;
   color: @text;
   margin: 6px 10px;
   padding: 8px 12px;
@@ -48,7 +48,7 @@ window {
   color: @text;
   background: transparent;
   border: none;
-  border-radius: 6px;
+  border-radius: 0;
 }
 
 .notification-default-action:hover,
