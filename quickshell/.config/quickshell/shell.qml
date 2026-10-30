@@ -1,3 +1,4 @@
+//@ pragma UseQApplication
 // Quickshell configuration: top bar + small QS modal.
 // Bar shows QS toggle, workspaces, focused window title and clock.
 // QS modal shows reload action.
@@ -116,7 +117,7 @@ ShellRoot {
             // "v" button to the left of the clock; opens the tray under it
             Row {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.leftMargin: -15
+                Layout.leftMargin: -20
 
                 // Toggle (open/close) the tray
                 Text {
@@ -188,12 +189,21 @@ ShellRoot {
 
                     MouseArea {
                         anchors.fill: parent
-                        acceptedButtons: Qt.LeftButton
-                        onClicked: {
-                            if (modelData.onlyMenu && modelData.hasMenu)
-                                modelData.display(bar, 0, 0)
-                            else
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        onClicked: (mouse) => {
+
+                            if (mouse.button === Qt.RightButton) {
+                                if (modelData.hasMenu) {
+                                    const pos = parent.mapToItem(trayPopup.contentItem, mouse.x, mouse.y)
+                                    modelData.display(trayPopup, pos.x, pos.y)
+                                }
+                            } else if (modelData.onlyMenu && modelData.hasMenu) {
+                                const posLeft = parent.mapToItem(trayPopup.contentItem, mouse.x, mouse.y)
+                                modelData.display(trayPopup, posLeft.x, posLeft.y)
+                            } else {
                                 modelData.activate()
+                                bar.trayOpen = false
+                            }
                         }
                     }
                 }

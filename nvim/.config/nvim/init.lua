@@ -42,6 +42,7 @@ vim.pack.add({
   "https://github.com/nvim-mini/mini.nvim",
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/nvim-tree/nvim-tree.lua",
+  "https://github.com/IogaMaster/neocord",
   "https://github.com/neovim/nvim-lspconfig",
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
 })
@@ -56,6 +57,9 @@ require("mini.pairs").setup()
 -- git signs in the gutter
 require("gitsigns").setup()
 
+-- Discord Rich Presence
+require("neocord").setup({})
+
 -- File tree like VS Code
 require("nvim-tree").setup({
   view = { width = 32 },
@@ -63,6 +67,13 @@ require("nvim-tree").setup({
   git = { enable = true, ignore = false },
   filters = { dotfiles = false },
   update_focused_file = { enable = true },
+})
+
+-- Close the tree together with the last editor window on :q
+vim.api.nvim_create_autocmd("QuitPre", {
+  callback = function()
+    pcall(vim.cmd, "NvimTreeClose")
+  end,
 })
 
 -- Open the tree on startup: with a directory (nvim .) and with a file (nvim file)
