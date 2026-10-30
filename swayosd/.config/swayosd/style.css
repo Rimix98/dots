@@ -1,7 +1,7 @@
 /* Monochrome style for SwayOSD */
 window#osd {
-  border-radius: 999px;
-  border: 1px solid rgba(160, 160, 160, 0.25);
+  border-radius: 0;
+  border: 1px solid #9f78bd;
   background: rgba(15, 15, 20, 0.82); }
   window#osd #container {
     margin: 16px; }
