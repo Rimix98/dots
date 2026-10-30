@@ -1,105 +1,106 @@
 # dots
 
-Минималистичный чёрно-серый райс на **Hyprland** с одним акцентным цветом — пурпурным `#9f78bd`.
-Интерфейс серый, а всё, что рисует содержимое (иконки, подсветка в терминале, картинки), остаётся цветным.
+Minimal black-gray rice on **Hyprland** with one accent color — purple `#9f78bd`.
+Gray interface, while everything that renders content (icons, terminal highlighting, images) stays colorful.
 
 ![Preview](Preview.png)
 
-## Что внутри
+## What's inside
 
-| Папка | Что настраивает |
+| Folder | What it configures |
 |---|---|
-| `hypr` | Hyprland (Lua-конфиг, разбит на модули), hyprpaper, hyprlock, hypridle |
-| `kitty` | терминал: шрифт, цвета, шлейф курсора |
-| `fuzzel` | лаунчер |
+| `hypr` | Hyprland (Lua config split into modules), hyprpaper, hyprlock, hypridle |
+| `kitty` | terminal: font, colors, cursor trail |
+| `fuzzel` | launcher |
 | `quickshell` | `shell.qml` |
-| `qt` | `kdeglobals` и qt6ct: цвета Qt-приложений |
-| `fastfetch` | конфиг и логотип |
-| `starship` | промпт |
-| `swaync` | центр уведомлений: конфиг и стиль |
-| `swayosd` | экранные индикаторы громкости/яркости: конфиг и стиль |
-| `system` | файлы вне `~`: `etc/ly/config.ini` для экрана входа ly |
-| `nvim` | редактор |
+| `qt` | `kdeglobals` and qt6ct: Qt application colors |
+| `fastfetch` | config and logo |
+| `starship` | prompt |
+| `swaync` | notification center: config and style |
+| `swayosd` | on-screen indicators for volume/brightness: config and style |
+| `system` | files outside `~`: `etc/ly/config.ini` for the ly display manager |
+| `nvim` | editor |
 
-Конфиг Hyprland написан на Lua (формат Hyprland 0.55+) и разбит на файлы:
-`hyprland.lua` подключает `appearance`, `input`, `binds`, `rules` и `autostart`.
+The Hyprland config is written in Lua (Hyprland 0.55+ format) and split into files:
+`hyprland.lua` pulls in `appearance`, `input`, `binds`, `rules`, and `autostart`.
 
-## Палитра
+## Palette
 
-| Роль | Цвет |
+| Role | Color |
 |---|---|
-| фон | `#1c1c1c` |
-| неактивная рамка | `#333333` |
-| текст | `#d0d0d0` |
-| акцент (активная рамка, выделение, курсор) | `#9f78bd` |
+| background | `#1c1c1c` |
+| inactive border | `#333333` |
+| text | `#d0d0d0` |
+| accent (active border, selection, cursor) | `#9f78bd` |
 
-Шрифт везде один: JetBrainsMono Nerd Font. Курсор: Bibata-Modern-Ice. Иконки: Papirus-Dark.
+One font everywhere: JetBrainsMono Nerd Font. Cursor: Bibata-Modern-Ice. Icons: Papirus-Dark.
 
-## Основные бинды
+## Keybinds
 
-| Клавиши | Действие |
+| Keys | Action |
 |---|---|
-| `SUPER + Q` | терминал (kitty) |
-| `SUPER + R` | лаунчер (fuzzel) |
-| `SUPER + C` | закрыть окно |
-| `SUPER + V` | плавающее окно вкл/выкл |
-| `SUPER + J` | сменить направление разделения |
-| `SUPER + F` | полный экран |
-| `SUPER + D` | развернуть на всё окно (с рамками и отступами) |
-| `SUPER + L` | заблокировать экран (hyprlock) |
-| `SUPER + 1…0` | рабочий стол |
-| `SUPER + SHIFT + 1…0` | перенести окно на рабочий стол |
-| `Print` | скриншот области в буфер обмена |
+| `SUPER + Q` | terminal (kitty) |
+| `SUPER + R` | launcher (fuzzel) |
+| `SUPER + C` | close window |
+| `SUPER + V` | toggle floating window |
+| `SUPER + J` | toggle split direction |
+| `SUPER + F` | fullscreen |
+| `SUPER + D` | maximize with borders and gaps |
+| `SUPER + L` | lock screen (hyprlock) |
+| `SUPER + 1…0` | workspace |
+| `SUPER + SHIFT + 1…0` | move window to workspace |
+| `Print` | screenshot area to clipboard |
 
-## Зависимости
+## Dependencies
 
-Arch Linux (названия пакетов могут отличаться в других дистрибутивах):
+Arch Linux (package names may differ on other distributions):
 
 ```
-hyprland hyprpaper hyprlock hypridle kitty fuzzel fastfetch starship quickshell swaync swayosd
+hyprland hyprpaper hyprlock hypridle kitty fuzzel fastfetch starship quickshell
 stow grim slurp hyprshot wl-clipboard cliphist brightnessctl playerctl
 plasma-integration qt6ct
 ttf-jetbrains-mono-nerd papirus-icon-theme bibata-cursor-theme
+swaync swayosd
 ```
 
-Экран входа: `ly` (по желанию).
+Display manager: `ly` (optional).
 
-## Установка
+## Installation
 
 ```
 git clone https://github.com/Rimix98/dots ~/dots
 cd ~/dots
 ```
 
-Если в `~/.config` уже лежат одноимённые файлы, `stow` откажется их заменять: сначала сделай копию или удали их.
+If `~/.config` already contains files with the same names, `stow` refuses to replace them: back them up or remove them first.
 
 ```
-stow hypr kitty fuzzel quickshell qt fastfetch starship swaync swayosd nvim
+stow hypr kitty fuzzel quickshell qt fastfetch starship swaync swayosd
 ```
 
-В конфигах, где указан абсолютный путь (обои и схема Qt), стоит заглушка `/home/USER`.
-Подставь свой домашний каталог:
+Configs with absolute paths (wallpapers and the Qt scheme) use the `/home/USER` placeholder.
+Substitute your home directory:
 
 ```
 sed -i "s|/home/USER|$HOME|g" ~/.config/hypr/hyprpaper.conf ~/.config/hypr/hyprlock.conf ~/.config/qt6ct/qt6ct.conf ~/.config/swayosd/config.toml
 ```
 
-Положи обои в `~/Pictures/Wallpapers/wallhaven-1kld7w.png` (или поправь путь в `hyprpaper.conf` и `hyprlock.conf`).
+Place the wallpaper at `~/Pictures/Wallpapers/wallhaven-1kld7w.png` (or fix the path in `hyprpaper.conf` and `hyprlock.conf`).
 
-Экран входа ly (по желанию):
+Display manager ly (optional):
 
 ```
 sudo cp system/etc/ly/config.ini /etc/ly/config.ini
 ```
 
-## Заметки
+## Notes
 
-- Qt-приложения берут цвета из `~/.config/kdeglobals` через плагин `kde`
-  (`QT_QPA_PLATFORMTHEME=kde`), а не через qt6ct.
-- В `autostart.lua` лежит запуск hyprpaper и `wl-paste --watch cliphist store`:
-  уберите или замените под себя.
-- Перед тем как применять конфиги на рабочей системе, лучше сохранить свои.
+- Qt applications take colors from `~/.config/kdeglobals` through the `kde` plugin
+  (`QT_QPA_PLATFORMTHEME=kde`), not through qt6ct.
+- `autostart.lua` starts hyprpaper and `wl-paste --watch cliphist store`:
+  remove or adjust to your needs.
+- Back up your own configs before applying these.
 
-## Обои
+## Wallpaper
 
-[wallhaven-1kld7w](https://wallhaven.cc/w/1kld7w). Права на изображение принадлежат автору, поэтому в репозитории его нет.
+[wallhaven-1kld7w](https://wallhaven.cc/w/1kld7w). The image rights belong to its author, so it is not included in the repository.

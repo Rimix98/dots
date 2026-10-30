@@ -2,7 +2,7 @@ hl.monitor({
     output   = "",
     mode     = "preferred",
     position = "auto",
-    scale    = "1",   -- поставь свой масштаб
+    scale    = "1",   -- set your monitor scale
 })
 
 hl.env("XCURSOR_THEME", "Bibata-Modern-Ice")

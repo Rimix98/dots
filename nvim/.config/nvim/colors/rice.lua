@@ -1,5 +1,5 @@
 -- ~/.config/nvim/colors/rice.lua
--- Серый интерфейс, один пурпурный акцент, приглушённые цвета для кода.
+-- Gray interface, one purple accent, muted colors for code.
 
 vim.cmd("highlight clear")
 if vim.fn.exists("syntax_on") == 1 then
@@ -9,7 +9,7 @@ vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.g.colors_name = "rice"
 
--- true: фон берётся от терминала (kitty), false: свой #1c1c1c
+-- true: background taken from terminal (kitty), false: own #1c1c1c
 local transparent = true
 
 local c = {
@@ -41,7 +41,7 @@ local function hl(group, opts)
   vim.api.nvim_set_hl(0, group, opts)
 end
 
--- Интерфейс
+-- Interface
 hl("Normal",       { fg = c.fg, bg = bg })
 hl("NormalNC",     { fg = c.fg, bg = bg })
 hl("NormalFloat",  { fg = c.fg, bg = c.bg_dark })
@@ -95,7 +95,7 @@ hl("Question",     { fg = c.accent_lt })
 hl("ErrorMsg",     { fg = c.red_br, bold = true })
 hl("WarningMsg",   { fg = c.yellow })
 
--- Синтаксис
+-- Syntax
 hl("Comment",      { fg = c.comment, italic = true })
 hl("Constant",     { fg = c.yellow })
 hl("String",       { fg = c.green })
@@ -127,7 +127,7 @@ hl("Todo",         { fg = c.bg, bg = c.yellow, bold = true })
 hl("Underlined",   { fg = c.accent_lt, underline = true })
 hl("Error",        { fg = c.red_br })
 
--- Treesitter, где стандартная связь не даёт нужный вид
+-- Treesitter, where default links do not give the desired look
 hl("@variable",           { fg = c.fg })
 hl("@variable.builtin",   { fg = c.accent_lt })
 hl("@variable.parameter", { fg = c.fg, italic = true })
@@ -138,7 +138,7 @@ hl("@tag",                { fg = c.accent })
 hl("@tag.attribute",      { fg = c.cyan })
 hl("@tag.delimiter",      { fg = c.subtle })
 
--- Диагностика и LSP
+-- Diagnostics and LSP
 hl("DiagnosticError", { fg = c.red_br })
 hl("DiagnosticWarn",  { fg = c.yellow })
 hl("DiagnosticInfo",  { fg = c.blue })
@@ -152,7 +152,7 @@ hl("LspReferenceText",  { bg = c.bg_sel })
 hl("LspReferenceRead",  { bg = c.bg_sel })
 hl("LspReferenceWrite", { bg = c.bg_sel })
 
--- Diff и git
+-- Diff and git
 hl("DiffAdd",    { bg = "#22301f" })
 hl("DiffChange", { bg = "#2a2a1f" })
 hl("DiffDelete", { fg = c.red, bg = "#301f1f" })
@@ -164,7 +164,7 @@ hl("GitSignsAdd",    { fg = c.green })
 hl("GitSignsChange", { fg = c.yellow })
 hl("GitSignsDelete", { fg = c.red_br })
 
--- Проверка орфографии
+-- Spell checking
 hl("SpellBad",   { undercurl = true, sp = c.red_br })
 hl("SpellCap",   { undercurl = true, sp = c.yellow })
 hl("SpellLocal", { undercurl = true, sp = c.blue })
