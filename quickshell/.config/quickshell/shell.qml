@@ -5,6 +5,7 @@
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
+import Quickshell.Services.SystemTray
 import QtQuick
 import QtQuick.Layouts
 
@@ -27,6 +28,9 @@ ShellRoot {
 
         // Whether the QS modal is currently open
         property bool centerOpen: false
+
+        // Whether the hidden system tray is expanded
+        property bool trayOpen: false
 
         // Auto-close modal after 6 seconds
         Timer {
@@ -106,6 +110,29 @@ ShellRoot {
                 Layout.alignment: Qt.AlignVCenter
             }
 
+            // Spacer between focused window title and tray/clock
+            Item { Layout.preferredWidth: 8 }
+
+            // "v" button to the left of the clock; opens the tray under it
+            Row {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.leftMargin: -15
+
+                // Toggle (open/close) the tray
+                Text {
+                    id: trayToggle
+                    text: "v"
+                    color: "#9aa0ab"
+                    font.pixelSize: 14
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: bar.trayOpen = !bar.trayOpen
+                    }
+                }
+            }
+
             // Current time in 24-hour format
             Text {
                 id: clockText
@@ -123,6 +150,54 @@ ShellRoot {
             repeat: true
             triggeredOnStart: true
             onTriggered: clockText.text = Qt.formatTime(new Date(), "HH:mm")
+        }
+    }
+
+    // Tray popup shown under the "v" button
+    PanelWindow {
+        id: trayPopup
+        visible: bar.trayOpen
+
+        anchors { top: true; left: true }
+        margins.top: 5
+        margins.left: Math.max(0, trayToggle.mapToItem(bar.contentItem, 0, 0).x + trayToggle.width - (trayRow.implicitWidth + 12))
+
+        implicitWidth: trayRow.implicitWidth + 12
+        implicitHeight: 30
+        color: "#22222a"
+
+        Row {
+            id: trayRow
+            anchors.centerIn: parent
+            spacing: 6
+
+            Repeater {
+                model: SystemTray.items
+
+                delegate: Item {
+                    required property var modelData
+
+                    implicitWidth: 18
+                    implicitHeight: 18
+
+                    Image {
+                        anchors.fill: parent
+                        source: modelData.icon
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        onClicked: {
+                            if (modelData.onlyMenu && modelData.hasMenu)
+                                modelData.display(bar, 0, 0)
+                            else
+                                modelData.activate()
+                        }
+                    }
+                }
+            }
         }
     }
 
