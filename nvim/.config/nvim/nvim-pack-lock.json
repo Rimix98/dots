@@ -8,6 +8,10 @@
       "rev": "a03ad899bda446b5a81cfa99d8aeeb92241522f3",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
+    "neocord": {
+      "rev": "4cf99993826a1d555294a2f152804bcdce9be2e6",
+      "src": "https://github.com/IogaMaster/neocord"
+    },
     "nvim-lspconfig": {
       "rev": "4b2b045b8ceb035f5c8bc9cab19b95706bfa6a19",
       "src": "https://github.com/neovim/nvim-lspconfig"

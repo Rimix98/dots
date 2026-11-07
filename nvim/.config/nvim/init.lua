@@ -1,13 +1,13 @@
 -- ~/.config/nvim/init.lua
--- Neovim 0.12+: plugins installed by built-in vim.pack, LSP built in.
+-- Neovim 0.12+: плагины ставит встроенный vim.pack, LSP встроенный.
 
 ------------------------------------------------------------------
--- Settings
+-- Настройки
 ------------------------------------------------------------------
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- nvim-tree wants built-in netrw disabled before loading
+-- nvim-tree просит отключить встроенный netrw до загрузки
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -15,7 +15,7 @@ local o = vim.opt
 o.termguicolors = true
 o.number = true
 o.cursorline = true
-o.cursorlineopt = "number"   -- highlight only the current line number
+o.cursorlineopt = "number"   -- подсвечивать номер текущей строки
 o.signcolumn = "yes"
 o.scrolloff = 6
 o.wrap = false
@@ -25,18 +25,18 @@ o.ignorecase = true
 o.smartcase = true
 o.undofile = true
 o.updatetime = 250
-o.clipboard = "unnamedplus"  -- shared clipboard with system (requires wl-clipboard)
-o.winborder = "single"       -- borders of floating windows
-o.showmode = false           -- status line shows the mode
+o.clipboard = "unnamedplus"  -- общий буфер с системой (нужен wl-clipboard)
+o.winborder = "single"       -- рамки плавающих окон
+o.showmode = false           -- режим покажет строка статуса
 o.completeopt = "menu,menuone,noselect,popup"
 
 ------------------------------------------------------------------
--- Theme (before plugins so their colors are not reset)
+-- Тема (до плагинов, чтобы их цвета не сбросились)
 ------------------------------------------------------------------
 vim.cmd.colorscheme("rice")
 
 ------------------------------------------------------------------
--- Plugins
+-- Плагины
 ------------------------------------------------------------------
 vim.pack.add({
   "https://github.com/nvim-mini/mini.nvim",
@@ -47,20 +47,20 @@ vim.pack.add({
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
 })
 
--- mini.nvim: icons, statusline, picker, pairs
+-- mini.nvim: иконки, строка статуса, поиск, парные скобки
 require("mini.icons").setup()
-require("mini.icons").mock_nvim_web_devicons()  -- icons for nvim-tree
+require("mini.icons").mock_nvim_web_devicons()  -- иконки для nvim-tree
 require("mini.statusline").setup()
 require("mini.pick").setup()
 require("mini.pairs").setup()
 
--- git signs in the gutter
+-- git-знаки на полях
 require("gitsigns").setup()
 
 -- Discord Rich Presence
 require("neocord").setup({})
 
--- File tree like VS Code
+-- Дерево файлов как в VS Code
 require("nvim-tree").setup({
   view = { width = 32 },
   renderer = { group_empty = true, indent_markers = { enable = true } },
@@ -69,14 +69,14 @@ require("nvim-tree").setup({
   update_focused_file = { enable = true },
 })
 
--- Close the tree together with the last editor window on :q
+-- Закрывать дерево вместе с последним окном редактора при :q
 vim.api.nvim_create_autocmd("QuitPre", {
   callback = function()
     pcall(vim.cmd, "NvimTreeClose")
   end,
 })
 
--- Open the tree on startup: with a directory (nvim .) and with a file (nvim file)
+-- Открывать дерево при запуске: с папкой (nvim .) и с файлом (nvim файл)
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function(data)
     local is_dir = data.file ~= "" and vim.fn.isdirectory(data.file) == 1
@@ -85,38 +85,38 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
     require("nvim-tree.api").tree.open()
     if not is_dir and data.file ~= "" then
-      vim.cmd("wincmd p")  -- return cursor to the file
+      vim.cmd("wincmd p")  -- вернуть курсор в файл
     end
   end,
 })
 
--- Treesitter: parsers are installed asynchronously, highlighting is enabled by Neovim
+-- Treesitter: парсеры ставятся асинхронно, подсветку включает сам Neovim
 require("nvim-treesitter").install({
   "bash", "css", "go", "gomod", "html", "javascript", "json",
-  "lua", "markdown", "markdown_inline", "typescript", "vim", "vimdoc", "vue",
+  "lua", "markdown", "markdown_inline", "python", "typescript", "vim", "vimdoc", "vue",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
   callback = function()
-    pcall(vim.treesitter.start)  -- silently skip languages without a parser
+    pcall(vim.treesitter.start)  -- тихо пропускаем языки без парсера
   end,
 })
 
 ------------------------------------------------------------------
 -- LSP
 ------------------------------------------------------------------
--- Servers must be installed on the system (see the list in the message)
+-- Серверы должны быть установлены в системе (см. список в сообщении)
 vim.lsp.config("lua_ls", {
   settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 })
 
--- TypeScript/JS and Vue. For Vue two servers are needed: vtsls with plugin
--- @vue/typescript-plugin and vue_ls (do not enable ts_ls together with vtsls).
-local enabled = { "gopls", "lua_ls", "vtsls" }
+-- TypeScript/JS и Vue. Для Vue нужны два сервера: vtsls с плагином
+-- @vue/typescript-plugin и vue_ls (ts_ls вместе с vtsls не включаем).
+local enabled = { "gopls", "lua_ls", "vtsls", "pyright", "bashls" }
 
 local vue_bin = vim.fn.exepath("vue-language-server")
 if vue_bin ~= "" then
-  -- package directory of @vue/language-server: two levels up from bin/*.js
+  -- папка пакета @vue/language-server: два уровня вверх от bin/*.js
   local vue_path = vim.fs.dirname(vim.fs.dirname(vim.fn.resolve(vue_bin)))
   vim.lsp.config("vtsls", {
     settings = {
@@ -150,7 +150,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
-    -- completion provided by the server
+    -- автодополнение от сервера
     if client and client:supports_method("textDocument/completion") then
       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
     end
@@ -158,20 +158,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local function bmap(lhs, rhs, desc)
       vim.keymap.set("n", lhs, rhs, { buffer = ev.buf, desc = desc })
     end
-    bmap("gd", vim.lsp.buf.definition, "Go to definition")
-    bmap("<leader>d", vim.diagnostic.open_float, "Error under cursor")
-    bmap("<leader>cf", function() vim.lsp.buf.format({ async = true }) end, "Format")
+    bmap("gd", vim.lsp.buf.definition, "К определению")
+    bmap("<leader>d", vim.diagnostic.open_float, "Ошибка под курсором")
+    bmap("<leader>cf", function() vim.lsp.buf.format({ async = true }) end, "Форматировать")
+
+    -- VS Code style inlay hints (типы и параметры прямо в коде)
+    if client and client:supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+    end
+    bmap("<leader>ch", function()
+      local current = vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf })
+      vim.lsp.inlay_hint.enable(not current, { bufnr = ev.buf })
+    end, "Переключить хинты (Inlay Hints)")
   end,
 })
 
 ------------------------------------------------------------------
--- Keybindings
+-- Клавиши
 ------------------------------------------------------------------
 local map = vim.keymap.set
-map("n", "<C-b>",     "<cmd>NvimTreeToggle<cr>",   { desc = "File tree" })
-map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>",   { desc = "File tree" })
-map("n", "<leader>E", "<cmd>NvimTreeFindFile<cr>", { desc = "Reveal file in tree" })
-map("n", "<leader>f", "<cmd>Pick files<cr>",       { desc = "Files" })
-map("n", "<leader>g", "<cmd>Pick grep_live<cr>",   { desc = "Live grep" })
-map("n", "<leader>b", "<cmd>Pick buffers<cr>",     { desc = "Buffers" })
+map("n", "<C-b>",     "<cmd>NvimTreeToggle<cr>",   { desc = "Дерево файлов" })
+map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>",   { desc = "Дерево файлов" })
+map("n", "<leader>E", "<cmd>NvimTreeFindFile<cr>", { desc = "Показать файл в дереве" })
+map("n", "<leader>f", "<cmd>Pick files<cr>",       { desc = "Файлы" })
+map("n", "<leader>g", "<cmd>Pick grep_live<cr>",   { desc = "Поиск по тексту" })
+map("n", "<leader>b", "<cmd>Pick buffers<cr>",     { desc = "Буферы" })
 map("n", "<Esc>",     "<cmd>nohlsearch<cr>")

@@ -1,8 +1,8 @@
--- Split config into files so a setting is easy to find
+-- Короче разделяем файлы что бы не искать одну настройку весь день
 
-require("appearance") -- Window appearance
-require("input")      -- Input devices
-require("binds")      -- Keybindings
-require("rules")      -- Window rules
-require("autostart")  -- Autostart
+require("appearance") -- Как выглядят окна
+require("input") -- Всё что вводим
+require("binds") -- Бинды
+require("rules") -- Правила
+require("autostart") -- Автозапуск
 

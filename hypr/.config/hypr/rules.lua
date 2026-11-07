@@ -12,3 +12,9 @@ hl.window_rule({
     },
     no_focus = true,
 })
+
+-- Tearing (как в end-4): immediate только для игр и wine/Proton-окон.
+-- Требует general.allow_tearing = true (см. appearance.lua).
+hl.window_rule({ match = { title = ".*\\.exe" },        immediate = true })
+hl.window_rule({ match = { class = "^(steam_app).*" },  immediate = true })
+hl.window_rule({ match = { title = ".*minecraft.*" },   immediate = true })

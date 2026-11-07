@@ -1,0 +1,13 @@
+[Unit]
+Description=Set i915 minimum GPU frequency to 400 MHz
+Documentation=https://wiki.archlinux.org/title/Intel_GPU_tuning
+After=multi-user.target
+
+[Service]
+Type=oneshot
+# Card number may differ between machines; gt_min_freq_mhz only exists on Intel i915.
+ExecStart=/bin/sh -c 'for f in /sys/class/drm/card*/gt_min_freq_mhz; do [ -e "$f" ] && echo 400 > "$f"; done'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

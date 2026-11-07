@@ -124,7 +124,7 @@ ShellRoot {
                     id: trayToggle
                     text: "v"
                     color: "#9aa0ab"
-                    font.pixelSize: 14
+		    font.pixelSize: 14
 
                     MouseArea {
                         anchors.fill: parent
@@ -150,7 +150,11 @@ ShellRoot {
             running: true
             repeat: true
             triggeredOnStart: true
-            onTriggered: clockText.text = Qt.formatTime(new Date(), "HH:mm")
+            onTriggered: {
+                // Обновляем только при реальном изменении, чтобы не дёргать перерисовку бара каждую секунду
+                const t = Qt.formatTime(new Date(), "HH:mm")
+                if (clockText.text !== t) clockText.text = t
+            }
         }
     }
 

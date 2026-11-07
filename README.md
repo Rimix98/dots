@@ -82,16 +82,37 @@ Configs with absolute paths (wallpapers and the Qt scheme) use the `/home/USER` 
 Substitute your home directory:
 
 ```
-sed -i "s|/home/USER|$HOME|g" ~/.config/hypr/hyprpaper.conf ~/.config/hypr/hyprlock.conf ~/.config/qt6ct/qt6ct.conf ~/.config/swayosd/config.toml
+sed -i "s|/home/USER|$HOME|g" ~/.config/hypr/hyprpaper.conf ~/.config/hypr/hyprpaper.lua ~/.config/hypr/hyprlock.conf ~/.config/hypr/autostart.lua ~/.config/qt6ct/qt6ct.conf ~/.config/swayosd/config.toml
 ```
 
-Place the wallpaper at `~/Pictures/Wallpapers/wallhaven-1kld7w.png` (or fix the path in `hyprpaper.conf` and `hyprlock.conf`).
+Place the wallpaper at `~/Изображения/Wallpapers/Wallpaper.png` (or fix the path in `hyprpaper.conf`, `hyprpaper.lua` and `hyprlock.conf`).
 
 Display manager ly (optional):
 
 ```
 sudo cp system/etc/ly/config.ini /etc/ly/config.ini
 ```
+
+Performance and shutdown fixes (optional):
+
+```
+sudo cp system/etc/modprobe.d/nvidia-performance.conf /etc/modprobe.d/
+sudo cp system/etc/systemd/system/i915-minfreq.service /etc/systemd/system/
+for m in tmp var-cache var-tmp; do
+  sudo mkdir -p /etc/systemd/system/$m.mount.d
+  sudo cp system/etc/systemd/system/$m.mount.d/timeout.conf /etc/systemd/system/$m.mount.d/
+done
+sudo systemctl daemon-reload
+sudo systemctl enable --now i915-minfreq.service
+sudo reboot
+```
+
+- `nvidia-performance.conf` disables dGPU runtime power management (fixes Xid 79
+  "GPU has fallen off the bus" on this laptop; costs some idle battery).
+- `i915-minfreq.service` keeps the Intel GPU at ≥400 MHz (fixes cursor stutter
+  at the 100 MHz floor). Check with `cat /sys/class/drm/card*/gt_min_freq_mhz`.
+- the mount drop-ins cap unmount time at 30 s so poweroff cannot hang on busy
+  `/tmp`, `/var/cache` or `/var/tmp`.
 
 ## Notes
 
@@ -103,4 +124,7 @@ sudo cp system/etc/ly/config.ini /etc/ly/config.ini
 
 ## Wallpaper
 
-[wallhaven-1kld7w](https://wallhaven.cc/w/1kld7w). The image rights belong to its author, so it is not included in the repository.
+`hyprpaper` uses `Изображения/Wallpapers/Wallpaper.png`, `hyprlock` references
+[wallhaven-1kld7w](https://wallhaven.cc/w/1kld7w). The image rights belong to
+their authors, so neither file is included in the repository — put your own
+images at those paths (or fix the paths).
